@@ -1,0 +1,68 @@
+/*
+Theme Name: The7 Child
+Theme URI: https://linkido.com/the7-child/ 
+Author: Linkido
+Author URI: https://linkido.com/
+Description: Child Theme for The7 Theme
+Template: dt-the7
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: child-theme
+Text Domain: the7-child
+*/
+
+
+@media only screen and (max-width: 768px) {
+	#commissionVal {
+		margin-bottom: 1.5em;
+		position: inherit!important;
+		text-align: center;
+		font-size: 14px;
+	}
+	.tutor-header-left-side {
+        margin-top: 80px;
+    }
+	.tutor-container, 
+    .tutor-container-fluid, 
+    .tutor-container-sm, 
+    .tutor-container-md, 
+    .tutor-container-lg, 
+    .tutor-container-xl, 
+    .tutor-container-xxl {
+        width: auto;
+    }
+	.tutor-row{
+		justify-content: space-evenly;
+	}
+}
+.wpml-ls-native {
+	color:white;
+}
+
+@media only screen and (max-width: 1368px) {
+    .tutor-header-left-side {
+        margin-top: 80px;
+		width:auto;
+    }
+	.tutor-header-right-side {
+		width:auto;
+	}
+}
+
+
+#tutor-metabox-course-settings-tabs > div > div.settings-tabs-navs-wrap {
+	display:none;
+}
+
+body.tutor-screen-course-builder #tutor-metabox-course-settings-tabs .course-settings-tabs-container .settings-tabs-container { 
+    overflow: visible;
+}
+
+#commissionVal {
+	position: absolute;
+	top: 10px;
+	right: 0;
+	display: none;
+	color: #1ebbf0;
+}
