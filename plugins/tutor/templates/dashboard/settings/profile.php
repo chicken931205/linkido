@@ -174,21 +174,21 @@ $max_filesize   = floatval( ini_get( 'upload_max_filesize' ) ) * ( 1024 * 1024 )
 				<label class="tutor-form-label tutor-color-secondary">
 					<?php esc_html_e( 'NET rate', 'tutor' ); ?>
 				</label>
-				<input class="tutor-form-control" type="text" name="net_rate" value="5" placeholder="<?php esc_attr_e( 'NET RATE', 'tutor' ); ?>">
+				<input class="tutor-form-control" type="text" name="net_rate" id="net_rate" value="<?php echo esc_attr( get_user_meta( $user->ID, 'net_rate', true ) ); ?>" placeholder="<?php esc_attr_e( 'NET RATE', 'tutor' ); ?>">
 			</div>
 
 			<div class="tutor-col-12 tutor-col-sm-4 tutor-col-md-12 tutor-col-lg-4 tutor-mb-32">
 				<label class="tutor-form-label tutor-color-secondary">
-					<?php esc_html_e( 'Linkido %', 'tutor' ); ?>
+					<?php esc_html_e( 'Linkido', 'tutor' ); ?>
 				</label>
-				<input class="tutor-form-control" type="text" name="linkido_percentage" value="5" placeholder="<?php esc_attr_e( 'Linkido %', 'tutor' ); ?>">
+				<input readonly class="tutor-form-control" type="text" name="linkido_percentage" id="linkido_percentage" value="<?php echo esc_attr( get_user_meta( $user->ID, 'linkido_percentage', true ) ); ?>" placeholder="<?php esc_attr_e( 'Linkido %', 'tutor' ); ?>">
 			</div>
 
 			<div class="tutor-col-12 tutor-col-sm-4 tutor-col-md-12 tutor-col-lg-4 tutor-mb-32">
 				<label class="tutor-form-label tutor-color-secondary">
-					<?php esc_html_e( 'End Price %', 'tutor' ); ?>
+					<?php esc_html_e( 'End Price', 'tutor' ); ?>
 				</label>
-				<input class="tutor-form-control" type="text" name="end_price" value="10" placeholder="<?php esc_attr_e( 'End Price', 'tutor' ); ?>">
+				<input readonly class="tutor-form-control" type="text" name="end_price" id="end_price" value="<?php echo esc_attr( get_user_meta( $user->ID, 'end_price', true ) ); ?>" placeholder="<?php esc_attr_e( 'End Price', 'tutor' ); ?>">
 			</div>
 		</div>
 

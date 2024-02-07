@@ -226,6 +226,11 @@ class Assets {
 		wp_enqueue_script( 'tutor-frontend', tutor()->url . 'assets/js/tutor-front.min.js', array( 'jquery', 'wp-i18n' ), TUTOR_VERSION, true );
 
 		/**
+		 * Load frontend customized js file
+		 */
+		wp_enqueue_script( 'calc-price', tutor()->url . 'assets/js/customized/calc-price.js', array( 'jquery' ), TUTOR_VERSION, true );
+
+		/**
 		 * Load frontend dashboard style
 		 *
 		 * @since v1.9.8
