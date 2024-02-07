@@ -103,19 +103,7 @@ if ( tutor_utils()->get_option( 'enable_profile_completion' ) ) {
 								<?php
 								$i++;
 						}
-							//get url for dashboard settings page
-							$page_id = (int) tutor_utils()->get_option( 'tutor_dashboard_page_id' );
-							$page_id = apply_filters( 'tutor_dashboard_page_id', $page_id );
-							$dashboard_settings_url = apply_filters( 'tutor_dashboard_url', trailingslashit( get_the_permalink( $page_id ) ) . 'settings' );
 						?>
-						<div class="tutor-d-flex tutor-align-center">
-							<span class="tutor-icon-circle-mark-line tutor-color-success tutor-mr-8"></span>
-							<span class="tutor-color-secondary">
-								<a class="tutor-btn tutor-btn-ghost tutor-has-underline" href="<?php echo $dashboard_settings_url; ?>">
-									Settings
-								</a>
-							</span>
-						</div>
 					</div>
 				</div>
 			</div>
