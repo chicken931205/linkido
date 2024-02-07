@@ -216,7 +216,13 @@ class Student {
 			update_user_meta( $user_id, '_tutor_profile_bio', $tutor_profile_bio );
 			update_user_meta( $user_id, '_tutor_profile_job_title', $tutor_profile_job_title );
 			
-			update_user_meta( $user_id, 'net_rate', $net_rate );
+			if ( $net_rate === "" && (int) $net_rate === 0 ) {
+				delete_user_meta( $user_id, 'net_rate' );
+				delete_user_meta( $user_id, 'end_price' );
+			} else if ( $net_rate && is_numeric( $net_rate ) ) {
+				update_user_meta( $user_id, 'net_rate', $net_rate );
+			}
+			
 			update_user_meta( $user_id, 'linkido_percentage', $linkido_percentage );
 			update_user_meta( $user_id, 'end_price', $end_price );
 

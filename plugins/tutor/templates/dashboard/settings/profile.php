@@ -181,7 +181,7 @@ $max_filesize   = floatval( ini_get( 'upload_max_filesize' ) ) * ( 1024 * 1024 )
 				<label class="tutor-form-label tutor-color-secondary">
 					<?php esc_html_e( 'Linkido', 'tutor' ); ?>
 				</label>
-				<input readonly class="tutor-form-control" type="text" name="linkido_percentage" id="linkido_percentage" value="<?php echo esc_attr( get_user_meta( $user->ID, 'linkido_percentage', true ) ); ?>" placeholder="<?php esc_attr_e( 'Linkido %', 'tutor' ); ?>">
+				<input readonly class="tutor-form-control" type="text" name="linkido_percentage" id="linkido_percentage" value="<?php echo esc_attr( get_user_meta( $user->ID, 'linkido_percentage', true ) ); ?>" placeholder="<?php esc_attr_e( 'Linkido', 'tutor' ); ?>">
 			</div>
 
 			<div class="tutor-col-12 tutor-col-sm-4 tutor-col-md-12 tutor-col-lg-4 tutor-mb-32">

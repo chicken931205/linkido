@@ -20,7 +20,12 @@ function handle_change_net_rate() {
     if ( typeof net_rate !== "number" ) return;
 
     var linkido_percentage = document.getElementById('linkido_percentage').value;
+    if ( linkido_percentage === "" ) {
+        linkido_percentage = 0;
+    } 
+
     linkido_percentage = Number(linkido_percentage);
+
 
     var end_price = net_rate + net_rate * linkido_percentage / 100;
     document.getElementById('end_price').value = end_price;
