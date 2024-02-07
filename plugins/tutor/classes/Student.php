@@ -223,8 +223,13 @@ class Student {
 				update_user_meta( $user_id, 'net_rate', $net_rate );
 			}
 			
-			update_user_meta( $user_id, 'linkido_percentage', $linkido_percentage );
-			update_user_meta( $user_id, 'end_price', $end_price );
+			if ( $linkido_percentage && is_numeric($linkido_percentage) ) {
+				update_user_meta( $user_id, 'linkido_percentage', $linkido_percentage );
+			}
+
+			if ( $end_price && is_numeric($end_price) ) {
+				update_user_meta( $user_id, 'end_price', $end_price );
+			}
 
 			$tutor_user_social = tutor_utils()->tutor_user_social_icons();
 			foreach ( $tutor_user_social as $key => $social ) {
