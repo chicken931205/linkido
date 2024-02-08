@@ -28,7 +28,7 @@ function handle_change_net_rate() {
 
 
     var end_price = net_rate + net_rate * linkido_percentage / 100;
-    document.getElementById('end_price').value = end_price;
+    document.getElementById('end_price').value = end_price.toFixed(2);
 }
 
 window.addEventListener('load', function () {

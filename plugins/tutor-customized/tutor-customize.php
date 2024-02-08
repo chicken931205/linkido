@@ -11,14 +11,46 @@
 define( 'TUTOR_CUSTOMIZED_VERSION', '1.0.0' );
 define( 'TUTOR_CUSTOMIZED_FILE', __FILE__ );
 
+if ( ! function_exists( 'tutor_customized' ) ) {
+	
+	function tutor_customized() {
+		if ( isset( $GLOBALS['tutor_customized_plugin_info'] ) ) {
+			return $GLOBALS['tutor_customized_plugin_info'];
+		}
+
+		$path    = plugin_dir_path( TUTOR_CUSTOMIZED_FILE );
+
+		// Prepare the basepath.
+		$home_url  = get_home_url();
+		$parsed    = parse_url( $home_url );
+		$base_path = ( is_array( $parsed ) && isset( $parsed['path'] ) ) ? $parsed['path'] : '/';
+		$base_path = rtrim( $base_path, '/' ) . '/';
+		// Get current URL.
+		$current_url = trailingslashit( $home_url ) . substr( $_SERVER['REQUEST_URI'], strlen( $base_path ) );//phpcs:ignore
+
+		$info = array(
+			'path'                   => $path,
+			'url'                    => plugin_dir_url( TUTOR_CUSTOMIZED_FILE ),
+			'js_dir'                 => plugin_dir_url( TUTOR_CUSTOMIZED_FILE ) . 'assets/js/',
+			'current_url'            => $current_url,
+			'basename'               => plugin_basename( TUTOR_CUSTOMIZED_FILE ),
+			'basepath'               => $base_path,
+			'version'                => TUTOR_CUSTOMIZED_VERSION,
+		);
+
+		$GLOBALS['tutor_customized_plugin_info'] = (object) $info;
+		return $GLOBALS['tutor_customized_plugin_info'];
+	}
+}
+
 add_action( 'admin_enqueue_scripts', function() {
     if ( isset( $_GET['page'] ) && $_GET['page'] === "tutor-instructors" ) {
-        wp_enqueue_script( 'set_linkido', tutor()->url . 'assets/js/customized/admin/set_linkido.js', array( 'jquery' ), TUTOR_CUSTOMIZED_VERSION, true );
+        wp_enqueue_script( 'set_linkido', tutor_customized()->url . 'assets/js/admin/set_linkido.js', array( 'jquery' ), TUTOR_CUSTOMIZED_VERSION, true );
     }
 } );
 
 add_action( 'wp_enqueue_scripts', function() {
-    wp_enqueue_script( 'calc-price', tutor()->url . 'assets/js/customized/calc-price.js', array( 'jquery' ), TUTOR_CUSTOMIZED_VERSION, true );
+    wp_enqueue_script( 'calc-price', tutor_customized()->url . 'assets/js/calc-price.js', array( 'jquery' ), TUTOR_CUSTOMIZED_VERSION, true );
 } );
 
 add_action( 'tutor_edit_instructor_form_fields_after', function( $instructor_id ) {

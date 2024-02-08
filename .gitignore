@@ -1,2 +1,10 @@
 debug.log
 /uploads/*
+/w3tc-config/*
+/upgrade-temp-backup/*
+/upgrade/*
+/mu-plugins/*
+/languages/
+/cache/
+/backuply/*
+/ailwm-backups/*
