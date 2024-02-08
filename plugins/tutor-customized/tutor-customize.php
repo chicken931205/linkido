@@ -69,3 +69,18 @@ add_action( 'wp_ajax_tutor_update_instructor_data', function() {
         }
     }
 } );
+
+add_filter( 'tutor/user/profile/completion', function($required_fields) {
+    $required_fields['net_rate'] = __( 'Set Your Net Rate', 'tutor' );
+
+    $settings_url = tutor_utils()->tutor_dashboard_url( 'settings' );
+    $user_id = get_current_user_id();
+
+    $required_fields[ 'net_rate' ] = array(
+        'text'   => __( 'Set Your Net Rate', 'tutor' ),
+        'is_set' => get_user_meta( $user_id, 'net_rate', true ) ? true : false,
+        'url'    => $settings_url,
+    );
+
+    return $required_fields;
+} );

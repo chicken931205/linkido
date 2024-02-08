@@ -7357,14 +7357,11 @@ class Utils {
 			$required_fields['_tutor_withdraw_method_data'] = __( 'Set Withdraw Method', 'tutor' );
 		}
 
-		$required_fields['net_rate'] = __( 'Set Your Net Rate', 'tutor' );
-
 		// url where user should redirect for profile completion.
 		$profile_completion_urls = array(
 			'_tutor_profile_photo'        => $settings_url,
 			'_tutor_profile_bio'          => $settings_url,
 			'_tutor_withdraw_method_data' => $withdraw_settings_url,
-			'net_rate'                    => $settings_url,
 		);
 		foreach ( $required_fields as $key => $field ) {
 			$required_fields[ $key ] = array(
