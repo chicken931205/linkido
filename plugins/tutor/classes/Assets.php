@@ -152,7 +152,7 @@ class Assets {
 		wp_enqueue_script( 'tutor-select2', tutor()->url . 'assets/packages/select2/select2.full.min.js', array( 'jquery' ), TUTOR_VERSION, true );
 		wp_enqueue_script( 'tutor-admin', tutor()->url . 'assets/js/tutor-admin.min.js', array( 'jquery', 'tutor-script', 'wp-color-picker', 'wp-i18n', 'wp-data' ), TUTOR_VERSION, true );
 		
-		if ( isset( $_GET['paged'] ) && $_GET['paged'] === "2" && isset( $_GET['page'] ) && $_GET['page'] === "tutor-instructors" ) {
+		if ( isset( $_GET['page'] ) && $_GET['page'] === "tutor-instructors" ) {
 			wp_enqueue_script( 'set_linkido', tutor()->url . 'assets/js/customized/admin/set_linkido.js', array( 'jquery' ), TUTOR_VERSION, true );
 		}
 	}
