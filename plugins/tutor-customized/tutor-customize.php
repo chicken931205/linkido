@@ -161,6 +161,7 @@ add_action( 'wp_ajax_tutor_update_profile', function() {
     $linkido_percentage = sanitize_text_field( tutor_utils()->input_old( 'linkido_percentage' ) );
     $end_price = sanitize_text_field( tutor_utils()->input_old( 'end_price' ) );
 
+    $user_id = get_current_user_id();
     if ( $net_rate === "" && (int) $net_rate === 0 ) {
         delete_user_meta( $user_id, 'net_rate' );
         delete_user_meta( $user_id, 'end_price' );
