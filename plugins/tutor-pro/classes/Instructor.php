@@ -157,7 +157,7 @@ class Instructor {
 							<div class="tutor-mb-16">
 								<input
 									value="<?php echo esc_attr( $linkido_percentage ); ?>" 
-									type="text" id="show_linkido_percentage_<?php echo $instructor->ID; ?>" class="tutor-form-control tutor-mb-12" placeholder="<?php esc_attr_e( 'Enter Linkido', 'tutor-pro' ); ?>"/>
+									type="text" id="show_linkido_percentage_<?php echo $instructor->ID; ?>" oninput="handle_change_linkido( <?php echo $instructor->ID; ?> )" class="tutor-form-control tutor-mb-12" placeholder="<?php esc_attr_e( 'Enter Linkido', 'tutor-pro' ); ?>"/>
 							</div>
 							<div class="tutor-mb-16">
 								<input value="" type="hidden" id="hidden_linkido_percentage_<?php echo $instructor->ID; ?>" name="linkido_percentage"/>
@@ -198,21 +198,6 @@ class Instructor {
 				</div>
 			</div>
 		</form>
-		<script>
-			function handle_change_linkido() {
-				var linkido = document.getElementById('show_linkido_percentage_<?php echo $instructor->ID; ?>').value;
-				linkido = Number(linkido);
-				console.log("linkido: " + linkido);
-				if ( typeof linkido !== "number" ) return;
-
-				document.getElementById('hidden_linkido_percentage_<?php echo $instructor->ID; ?>').value = linkido;
-				console.log("hidden value: " + document.getElementById('hidden_linkido_percentage_<?php echo $instructor->ID; ?>').value);
-			}
-
-			window.addEventListener('load', function () {
-				document.getElementById('show_linkido_percentage_<?php echo $instructor->ID; ?>').addEventListener("input", handle_change_linkido);
-			});
-		</script>
 		<?php
 		return ob_get_clean();
 	}
