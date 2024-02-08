@@ -51,8 +51,6 @@ class Instructor {
 		$id       = 'instructor-edit-modal-' . $instructor->ID;
 		$phone    = get_user_meta( $instructor->ID, 'phone_number', true );
 		$bio      = get_user_meta( $instructor->ID, '_tutor_profile_bio', true );
-		$linkido_percentage = get_user_meta( $instructor->ID, 'linkido_percentage', true );
-		$status   = get_user_meta( $instructor->ID, '_tutor_instructor_status', true );
 		$email    = $instructor->user_email;
 		$username = $instructor->user_login;
 		ob_start();
@@ -146,27 +144,7 @@ class Instructor {
 
 					<?php do_action( 'tutor_edit_instructor_form_fields_after', $instructor->ID ); ?>
 
-					<?php 
-						if ( $status === "approved" ) {
-							?>
-					<div class="tutor-rows">
-						<div class="tutor-col">
-							<label class="tutor-form-label">
-								<?php esc_html_e( 'Linkido', 'tutor-pro' ); ?>
-							</label>
-							<div class="tutor-mb-16">
-								<input
-									value="<?php echo esc_attr( $linkido_percentage ); ?>" 
-									type="text" id="show_linkido_percentage_<?php echo $instructor->ID; ?>" oninput="handle_change_linkido( <?php echo $instructor->ID; ?> )" class="tutor-form-control tutor-mb-12" placeholder="<?php esc_attr_e( 'Enter Linkido', 'tutor-pro' ); ?>"/>
-							</div>
-							<div class="tutor-mb-16">
-								<input value="" type="hidden" id="hidden_linkido_percentage_<?php echo $instructor->ID; ?>" name="linkido_percentage"/>
-							</div>
-						</div>
-					</div>
-							<?php
-						}
-					?>
+					
 					
 
 					<div class="tutor-row">
@@ -239,7 +217,6 @@ class Instructor {
 		$user_id    = Input::post( 'user_id' );
 		$first_name = Input::post( 'first_name', '' );
 		$last_name  = Input::post( 'last_name', '' );
-		$linkido_percentage = Input::post( 'linkido_percentage', '');
 
 		$user_data = apply_filters(
 			'tutor_instructor_update_data',
@@ -261,23 +238,7 @@ class Instructor {
 			update_user_meta( $user_id, 'description', $tutor_profile_bio );
 			update_user_meta( $user_id, '_tutor_profile_bio', $tutor_profile_bio );
 
-			if ( $linkido_percentage && is_numeric( $linkido_percentage ) ) {
-				update_user_meta( $user_id, 'linkido_percentage', $linkido_percentage );
-				$net_rate = get_user_meta( $user_id, 'net_rate', true );
-				if ( $net_rate ) {
-					$end_price = $net_rate + $net_rate * $linkido_percentage / 100;
-					update_user_meta( $user_id, 'end_price', $end_price );
-				}
-			} elseif ( $linkido_percentage === "" || (int) $linkido_percentage === 0) {
-				delete_user_meta( $user_id, 'linkido_percentage');
-				$net_rate = get_user_meta( $user_id, 'net_rate', true );
-				if ( $net_rate ) {
-					$end_price = $net_rate;
-					update_user_meta( $user_id, 'end_price', $end_price );
-				} else {
-					delete_user_meta( $user_id, 'end_price');
-				}
-			}
+			
 
 			/**
 			 * Save commission sharing data.

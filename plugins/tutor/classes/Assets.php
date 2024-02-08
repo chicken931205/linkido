@@ -151,10 +151,6 @@ class Assets {
 
 		wp_enqueue_script( 'tutor-select2', tutor()->url . 'assets/packages/select2/select2.full.min.js', array( 'jquery' ), TUTOR_VERSION, true );
 		wp_enqueue_script( 'tutor-admin', tutor()->url . 'assets/js/tutor-admin.min.js', array( 'jquery', 'tutor-script', 'wp-color-picker', 'wp-i18n', 'wp-data' ), TUTOR_VERSION, true );
-		
-		if ( isset( $_GET['page'] ) && $_GET['page'] === "tutor-instructors" ) {
-			wp_enqueue_script( 'set_linkido', tutor()->url . 'assets/js/customized/admin/set_linkido.js', array( 'jquery' ), TUTOR_VERSION, true );
-		}
 	}
 
 	/**
@@ -228,11 +224,6 @@ class Assets {
 		 */
 		wp_enqueue_style( 'tutor-frontend', tutor()->url . 'assets/css/tutor-front.min.css', array(), TUTOR_VERSION );
 		wp_enqueue_script( 'tutor-frontend', tutor()->url . 'assets/js/tutor-front.min.js', array( 'jquery', 'wp-i18n' ), TUTOR_VERSION, true );
-
-		/**
-		 * Load frontend customized js file
-		 */
-		wp_enqueue_script( 'calc-price', tutor()->url . 'assets/js/customized/calc-price.js', array( 'jquery' ), TUTOR_VERSION, true );
 
 		/**
 		 * Load frontend dashboard style
