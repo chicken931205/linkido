@@ -84,3 +84,95 @@ add_filter( 'tutor/user/profile/completion', function($required_fields) {
 
     return $required_fields;
 } );
+
+add_action( 'tutor_profile_edit_input_after', function($user) {
+    $public_display                     = array();
+    $public_display['display_nickname'] = $user->nickname;
+    $public_display['display_username'] = $user->user_login;
+
+    if ( ! empty( $user->first_name ) ) {
+        $public_display['display_firstname'] = $user->first_name;
+    }
+
+    if ( ! empty( $user->last_name ) ) {
+        $public_display['display_lastname'] = $user->last_name;
+    }
+
+    if ( ! empty( $user->first_name ) && ! empty( $user->last_name ) ) {
+        $public_display['display_firstlast'] = $user->first_name . ' ' . $user->last_name;
+        $public_display['display_lastfirst'] = $user->last_name . ' ' . $user->first_name;
+    }
+
+    if ( ! in_array( $user->display_name, $public_display ) ) { // Only add this if it isn't duplicated elsewhere.
+        $public_display = array( 'display_displayname' => $user->display_name ) + $public_display;
+    }
+
+    $public_display = array_map( 'trim', $public_display );
+    $public_display = array_unique( $public_display );
+    ?>
+    <div class="tutor-row">
+        <div class="tutor-col-12 tutor-col-sm-4 tutor-col-md-12 tutor-col-lg-4 tutor-mb-32">
+            <label class="tutor-form-label tutor-color-secondary">
+                <?php esc_html_e( 'NET rate', 'tutor' ); ?>
+            </label>
+            <input class="tutor-form-control" type="text" name="net_rate" id="net_rate" value="<?php echo esc_attr( get_user_meta( $user->ID, 'net_rate', true ) ); ?>" placeholder="<?php esc_attr_e( 'NET RATE', 'tutor' ); ?>">
+        </div>
+
+        <div class="tutor-col-12 tutor-col-sm-4 tutor-col-md-12 tutor-col-lg-4 tutor-mb-32">
+            <label class="tutor-form-label tutor-color-secondary">
+                <?php esc_html_e( 'Linkido', 'tutor' ); ?>
+            </label>
+            <input readonly class="tutor-form-control" type="text" name="linkido_percentage" id="linkido_percentage" value="<?php echo esc_attr( get_user_meta( $user->ID, 'linkido_percentage', true ) ); ?>" placeholder="<?php esc_attr_e( 'Linkido', 'tutor' ); ?>">
+        </div>
+
+        <div class="tutor-col-12 tutor-col-sm-4 tutor-col-md-12 tutor-col-lg-4 tutor-mb-32">
+            <label class="tutor-form-label tutor-color-secondary">
+                <?php esc_html_e( 'End Price', 'tutor' ); ?>
+            </label>
+            <input readonly class="tutor-form-control" type="text" name="end_price" id="end_price" value="<?php echo esc_attr( get_user_meta( $user->ID, 'end_price', true ) ); ?>" placeholder="<?php esc_attr_e( 'End Price', 'tutor' ); ?>">
+        </div>
+    </div>
+
+    <div class="tutor-row">
+        <div class="tutor-col-12 tutor-col-sm-6 tutor-col-md-12 tutor-col-lg-6 tutor-mb-32">
+            <label class="tutor-form-label tutor-color-secondary">
+                <?php esc_html_e( 'Display name publicly as', 'tutor' ); ?>
+
+            </label>
+            <select class="tutor-form-select" name="display_name">
+                <?php
+                foreach ( $public_display as $_id => $item ) {
+                    ?>
+                            <option <?php selected( $user->display_name, $item ); ?>><?php echo esc_html( $item ); ?></option>
+                        <?php
+                }
+                ?>
+            </select>
+            <div class="tutor-fs-7 tutor-color-secondary tutor-mt-12">
+                <?php esc_html_e( 'The display name is shown in all public fields, such as the author name, instructor name, student name, and name that will be printed on the certificate.', 'tutor' ); ?>
+            </div>
+        </div>
+    </div>
+<?php
+}, 9 );
+
+add_action( 'tutor_profile_update_after', function() {
+    $net_rate = sanitize_text_field( tutor_utils()->input_old( 'net_rate' ) );
+    $linkido_percentage = sanitize_text_field( tutor_utils()->input_old( 'linkido_percentage' ) );
+    $end_price = sanitize_text_field( tutor_utils()->input_old( 'end_price' ) );
+
+    if ( $net_rate === "" && (int) $net_rate === 0 ) {
+        delete_user_meta( $user_id, 'net_rate' );
+        delete_user_meta( $user_id, 'end_price' );
+    } else if ( $net_rate && is_numeric( $net_rate ) ) {
+        update_user_meta( $user_id, 'net_rate', $net_rate );
+    }
+    
+    if ( $linkido_percentage && is_numeric($linkido_percentage) ) {
+        update_user_meta( $user_id, 'linkido_percentage', $linkido_percentage );
+    }
+
+    if ( $end_price && is_numeric($end_price) ) {
+        update_user_meta( $user_id, 'end_price', $end_price );
+    }
+} );

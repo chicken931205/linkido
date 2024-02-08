@@ -198,10 +198,6 @@ class Student {
 		$tutor_profile_job_title = sanitize_text_field( tutor_utils()->input_old( 'tutor_profile_job_title' ) );
 
 		$display_name = sanitize_text_field( tutor_utils()->input_old( 'display_name' ) );
-		
-		$net_rate = sanitize_text_field( tutor_utils()->input_old( 'net_rate' ) );
-		$linkido_percentage = sanitize_text_field( tutor_utils()->input_old( 'linkido_percentage' ) );
-		$end_price = sanitize_text_field( tutor_utils()->input_old( 'end_price' ) );
 
 		$userdata = array(
 			'ID'           => $user_id,
@@ -216,21 +212,6 @@ class Student {
 			update_user_meta( $user_id, '_tutor_profile_bio', $tutor_profile_bio );
 			update_user_meta( $user_id, '_tutor_profile_job_title', $tutor_profile_job_title );
 			
-			if ( $net_rate === "" && (int) $net_rate === 0 ) {
-				delete_user_meta( $user_id, 'net_rate' );
-				delete_user_meta( $user_id, 'end_price' );
-			} else if ( $net_rate && is_numeric( $net_rate ) ) {
-				update_user_meta( $user_id, 'net_rate', $net_rate );
-			}
-			
-			if ( $linkido_percentage && is_numeric($linkido_percentage) ) {
-				update_user_meta( $user_id, 'linkido_percentage', $linkido_percentage );
-			}
-
-			if ( $end_price && is_numeric($end_price) ) {
-				update_user_meta( $user_id, 'end_price', $end_price );
-			}
-
 			$tutor_user_social = tutor_utils()->tutor_user_social_icons();
 			foreach ( $tutor_user_social as $key => $social ) {
 				$user_social_value = sanitize_text_field( tutor_utils()->input_old( $key ) );

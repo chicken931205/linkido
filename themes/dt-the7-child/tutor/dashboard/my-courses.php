@@ -159,11 +159,19 @@ $results = CourseModel::get_courses_by_instructor( $current_user_id, $status, $o
 									</span>
 									<span class="tutor-fs-7 tutor-fw-medium tutor-color-black">
 										<?php
-											$price = tutor_utils()->get_course_price();
-											if ( null === $price ) {
-												esc_html_e( 'Free', 'tutor' );
+											$course_duration = tutor_utils()->get_course_duration( $post->ID, true );
+											$end_price = get_user_meta( $current_user_id, 'end_price', true );
+											if ($course_duration && $end_price) {
+												$course_hours = $course_duration['durationHours'] + $course_duration['durationMinutes'] / 60 + $course_duration['durationSeconds'] / 3600;
+												$price = $end_price * $course_hours;
+												echo round($price, 2);
 											} else {
-												echo wp_kses_post( tutor_utils()->get_course_price() );
+												$price = tutor_utils()->get_course_price();
+												if ( null === $price ) {
+													esc_html_e( 'Free', 'tutor' );
+												} else {
+													echo wp_kses_post( tutor_utils()->get_course_price() );
+												}
 											}
 										?>
 									</span>
