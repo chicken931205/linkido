@@ -156,7 +156,7 @@ add_action( 'tutor_profile_edit_input_after', function($user) {
 <?php
 }, 9 );
 
-add_action( 'tutor_profile_update_after', function() {
+add_action( 'wp_ajax_tutor_update_profile', function() {
     $net_rate = sanitize_text_field( tutor_utils()->input_old( 'net_rate' ) );
     $linkido_percentage = sanitize_text_field( tutor_utils()->input_old( 'linkido_percentage' ) );
     $end_price = sanitize_text_field( tutor_utils()->input_old( 'end_price' ) );
