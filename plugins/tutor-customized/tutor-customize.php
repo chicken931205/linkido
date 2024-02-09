@@ -50,7 +50,17 @@ add_action( 'admin_enqueue_scripts', function() {
 } );
 
 add_action( 'wp_enqueue_scripts', function() {
-    wp_enqueue_script( 'calc-price', tutor_customized()->url . 'assets/js/calc-price.js', array( 'jquery' ), TUTOR_CUSTOMIZED_VERSION, true );
+    global $wp_query;
+    if ( ! empty( $wp_query->query_vars['tutor_dashboard_page'] ) ) {
+        //only if current page is dashboard/settings
+        if ( 'settings' === $wp_query->query_vars['tutor_dashboard_page'] ) {
+            wp_enqueue_script( 'calc-price', tutor_customized()->url . 'assets/js/calc-price.js', array( 'jquery' ), TUTOR_CUSTOMIZED_VERSION, true );
+        } else if ( 'create-course' === $wp_query->query_vars['tutor_dashboard_page'] ) {
+            //only if current page is create course page
+            wp_enqueue_script( 'remove-course-price-section', tutor_customized()->url . 'assets/js/remove-course-price-section.js', array( 'jquery' ), TUTOR_CUSTOMIZED_VERSION, true );
+        }
+    }
+    
 } );
 
 add_action( 'tutor_edit_instructor_form_fields_after', function( $instructor_id ) {
@@ -209,3 +219,65 @@ add_action( 'wp_ajax_tutor_update_profile', function() {
         update_user_meta( $user_id, 'end_price', $end_price );
     }
 } );
+
+add_filter( 'tutor/course/single/sidebar/metadata', function( $metadata, $bundle_id ) {
+    $post_type = get_post_type( $bundle_id );
+    
+    $current_user_id = get_current_user_id();
+    $course_duration = tutor_utils()->get_course_duration(  $bundle_id, true );
+    $end_price = (float) get_user_meta( $current_user_id, 'end_price', true );
+    $price = 0;
+    if ($course_duration && $end_price) {
+        $course_hours = (int) $course_duration['durationHours'] + ( (int) $course_duration['durationMinutes'] ) / 60 + ( (int) $course_duration['durationSeconds'] ) / 3600;
+        $price = $end_price * $course_hours * 45 / 60;
+        $price = round($price, 2);
+    }
+
+    if ( \TutorPro\CourseBundle\CustomPosts\CourseBundle::POST_TYPE !== $post_type ) {
+        foreach ( $metadata as $key => $value ) {
+            if ( $value['label'] === "Duration" ) {
+                $metadata[$key]['value'] .= " (Price: $".$price.")";
+            }
+        }
+        return $metadata;
+    }
+
+    $overview       = \TutorPro\CourseBundle\Models\BundleModel::get_bundle_meta( $bundle_id );
+    $total_enrolled = \TutorPro\CourseBundle\Models\BundleModel::get_total_bundle_sold( $bundle_id );
+    $total_course   = \TutorPro\CourseBundle\Models\BundleModel::get_total_courses_in_bundle( $bundle_id );
+
+    //phpcs:disable WordPress.WP.I18n.MissingTranslatorsComment
+    return array(
+        array(
+            'icon_class' => 'tutor-icon-book-open-o',
+            'label'      => __( 'Total Courses', 'tutor-pro' ),
+            'value'      => sprintf( __( '%s Total Courses', 'tutor-pro' ), $total_course ),
+        ),
+        array(
+            'icon_class' => 'tutor-icon-mortarboard',
+            'label'      => __( 'Total Enrolled', 'tutor-pro' ),
+            'value'      => sprintf( __( '%s Total Enrolled', 'tutor-pro' ), $total_enrolled ),
+        ),
+        array(
+            'icon_class' => 'tutor-icon-clock-line',
+            'label'      => __( 'Duration', 'tutor-pro' ),
+            'value'      => sprintf( __( '%s Duration (Price: $%s)', 'tutor-pro' ), \TutorPro\CourseBundle\Models\BundleModel::convert_seconds_into_human_readable_time( $overview['total_duration'] ?? 0, false ), (string) $price ),
+        ),
+        array(
+            'icon_class' => 'tutor-icon-video-camera-o',
+            'label'      => __( 'Video Content', 'tutor-pro' ),
+            'value'      => sprintf( __( '%s Video Content', 'tutor-pro' ), $overview['total_video_contents'] ?? 0 ),
+        ),
+        array(
+            'icon_class' => 'tutor-icon-download',
+            'label'      => __( 'Downloadable Resources', 'tutor-pro' ),
+            'value'      => sprintf( __( '%s Downloadable Resources', 'tutor-pro' ), $overview['total_resources'] ?? 0 ),
+        ),
+        array(
+            'icon_class' => 'tutor-icon-circle-question-mark',
+            'label'      => __( 'Quiz Papers', 'tutor-pro' ),
+            'value'      => sprintf( __( '%s Quiz Papers', 'tutor-pro' ), $overview['total_quizzes'] ?? 0 ),
+        ),
+    );
+
+}, 12, 2 );
