@@ -229,7 +229,7 @@ add_filter( 'tutor/course/single/sidebar/metadata', function( $metadata, $bundle
     $price = 0;
     if ($course_duration && $end_price) {
         $course_hours = (int) $course_duration['durationHours'] + ( (int) $course_duration['durationMinutes'] ) / 60 + ( (int) $course_duration['durationSeconds'] ) / 3600;
-        $price = $end_price * $course_hours * 45 / 60;
+        $price = $end_price * $course_hours;
         $price = round($price, 2);
     }
 

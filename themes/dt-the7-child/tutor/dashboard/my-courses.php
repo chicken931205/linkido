@@ -163,7 +163,7 @@ $results = CourseModel::get_courses_by_instructor( $current_user_id, $status, $o
 											$end_price = (float) get_user_meta( $current_user_id, 'end_price', true );
 											if ($course_duration && $end_price) {
 												$course_hours = (int) $course_duration['durationHours'] + ( (int) $course_duration['durationMinutes'] ) / 60 + ( (int) $course_duration['durationSeconds'] ) / 3600;
-												$price = $end_price * $course_hours * 45 / 60;
+												$price = $end_price * $course_hours;
 												echo round($price, 2);
 											} else {
 												$price = tutor_utils()->get_course_price();
